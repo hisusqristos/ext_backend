@@ -24,7 +24,7 @@ describe('testing get post delete and stuff', () => {
     })
 
     describe('GET /', () => {
-        test('returns list of existing articles', async () => {
+        test('expect tptp', async () => {
             const { body } = await request
                 .get(`/`)
                 .expect(200)
