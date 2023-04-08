@@ -1,4 +1,5 @@
 import { Schema, model, Types, Model } from "mongoose"
+import bcrypt from "bcrypt";
 
 interface User {
     username: string;
@@ -41,6 +42,15 @@ const userSchema = new Schema<User, Model<User>>({
         default: Date.now
     }
 })
+
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        return next();
+    }
+    const hash = await bcrypt.hash(this.password, 8);
+    this.password = hash;
+    next();
+});
 
 const UserModel = model('User', userSchema);
 
