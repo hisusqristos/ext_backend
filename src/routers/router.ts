@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Request, Response } from "express";
-import { signUp } from "../handlers/signUp"
+import { signUp } from "../handlers/userManagment/signUp"
 import { signIn } from "../handlers/signIn"
 const router = express.Router();
 
