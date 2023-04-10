@@ -9,8 +9,14 @@ router.get("/", (req: Request, res: Response) => {
     res.json({ message: "tptp" })
 });
 
-router.post("/sign-up", signUp);
+// 1) signup -> tested
+// 2) signin -> tested
+// 4) reset password -> not tested :(
+// 5) get profile
+// 6) update profile
 
-router.post("/sign-in", signIn)
+router.post("/sign-up", signUp);
+router.post("/sign-in", signIn);
+//router.post("/reset-password", )
 
 export { router };
