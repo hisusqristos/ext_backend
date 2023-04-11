@@ -30,61 +30,33 @@ describe('testing get users', () => {
         collection = db.collection('users');
     })
 
-    describe('GET /profiles', () => {
-        test('returns list of existing profiles', async () => {
+    describe('GET /profile', () => {
+        test('returns your profile', async () => {
+
+            const user = {
+                username: "example",
+                email: "test@example.com",
+                role: "normal",
+                password: "password123"
+            };
+
+            const { insertedId } = await collection.insertOne(user)
             const { body } = await request
                 .get(`/profiles`)
                 .expect(200)
+            expect(body._id).toBe(insertedId.toString())
+            expect(body.usermame).toBe(user.username)
+            expect(body.email).toEqual(user.email)
+
         });
+
     })
 
-    describe('GET /profiles/<usermame>', () => {
-        test('search by username. resolves with 200 when found', async () => {
+    test('fail with 401 unauthorized if unauthorized', async () => {
 
-            const user = {
-                username: "example",
-                email: "test@example.com",
-                role: "normal",
-                password: "password123"
-            };
-
-            // populate database with test data and get id for inserted document 
-            const { insertedId } = await collection.insertOne(user)
-
-            const { body } = await request
-                .get(`/profiles/${user.username}`)
-                .expect(200)
-
-            expect(body._id).toBe(insertedId.toString())
-            expect(body.usermame).toBe(user.username)
-            expect(body.email).toEqual(user.email)
-        })
-
-        test('search by id. resolves with 200 when found', async () => {
-
-            const user = {
-                username: "example",
-                email: "test@example.com",
-                role: "normal",
-                password: "password123"
-            };
-            const { insertedId } = await collection.insertOne(user)
-
-            const { body } = await request
-                .get(`/profiles/${insertedId}`)
-                .expect(200)
-
-            expect(body._id).toBe(insertedId.toString())
-            expect(body.usermame).toBe(user.username)
-            expect(body.email).toEqual(user.email)
-        })
-
-        test('search by id. fails with 404 when not found', async () => {
-            const id = new mongoose.Types.ObjectId();
-            await request
-                .get(`/profiles/${id}`)
-                .expect(404)
-        });
+        const { body } = await request
+            .get(`/profile`)
+        expect(body.statusCode).toEqual(401)
     })
 });
 
