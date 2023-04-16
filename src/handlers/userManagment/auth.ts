@@ -8,7 +8,6 @@ export interface IUser {
   userID: string | JwtPayload;
 }
 
-// export interface AuthRequest<ReqBody = { user: IUser }> extends Request {};
 export type AuthRequest = Request<{}, {}, { user: IUser }>;
 
 const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {

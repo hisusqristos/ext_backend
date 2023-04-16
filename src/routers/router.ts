@@ -1,7 +1,7 @@
 import * as express from "express";
 import { signUp } from "../handlers/userManagment/signUp"
 import { signIn } from "../handlers/userManagment/signIn"
-import { getProfile } from "../handlers/getUsers"
+import { getProfile } from "../handlers/getUser"
 import { auth } from "../handlers/userManagment/auth"
 const router = express.Router();
 
