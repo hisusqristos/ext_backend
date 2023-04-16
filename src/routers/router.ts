@@ -1,13 +1,9 @@
 import * as express from "express";
-import { Request, Response } from "express";
 import { signUp } from "../handlers/userManagment/signUp"
-import { signIn } from "../handlers/signIn"
+import { signIn } from "../handlers/userManagment/signIn"
+import { getProfile } from "../handlers/getUsers"
+import { auth } from "../handlers/userManagment/auth"
 const router = express.Router();
-
-// ignore this for now
-router.get("/", (req: Request, res: Response) => {
-    res.json({ message: "tptp" })
-});
 
 // 1) signup -> tested
 // 2) signin -> tested
@@ -17,6 +13,7 @@ router.get("/", (req: Request, res: Response) => {
 
 router.post("/sign-up", signUp);
 router.post("/sign-in", signIn);
+router.get("/profile", auth, getProfile)
 //router.post("/reset-password", )
 
 export { router };
