@@ -54,4 +54,4 @@ userSchema.pre("save", async function (next) {
 
 const UserModel = model('User', userSchema);
 
-export { UserModel }
+export { UserModel, User }
