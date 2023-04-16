@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { User } from "../models/user"
+import { CustomRequest } from "./userManagment/auth";
+
 // dotenv.config();
 
 // create an instance of the express application
@@ -12,8 +14,8 @@ import { User } from "../models/user"
 
 // ok, pochti ponimayu??
 
-const getProfile = (req: Request, res: Response) => {
-    res.json({ user: "asd"});
+const getProfile = (req: CustomRequest, res: Response) => {
+    res.json({ user: req.user});
 }
 
 export { getProfile }

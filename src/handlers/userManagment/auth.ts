@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { validate } from "../../helpers/token"
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export const SECRET_KEY = process.env.JWT_SECRET as string
+const SECRET_KEY = process.env.JWT_SECRET as string
 
-export interface CustomRequest extends Request {
-    token: string | JwtPayload;
+interface CustomRequest extends Request {
+    user: string | JwtPayload;
 }
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,11 +21,11 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).json({ "message": "no user data found" });
         }
 
-        (req as CustomRequest).token = decoded;
+        (req as CustomRequest).user = decoded;
 
         next();
     } catch (err) {
         res.status(401).json({ "message": "Please authenticate" });
     }
 };
-export { auth };
+export { auth, CustomRequest };
