@@ -3,7 +3,7 @@ import { UserModel } from "../../models/user";
 import { generateToken } from "../../helpers/token";
 import bcrypt from "bcrypt";
 
-const signIn = async (req: Request, res: Response, next: NextFunction) => {
+const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email });

@@ -1,26 +1,31 @@
-import { UserModel } from "../../models/user";
-import { TokenModel } from "../../models/token";
-import { sendEmail } from "../../helpers/email/sendEmail";
-import crypto from "crypto";
-import bcrypt from "bcrypt";
+import { NextFunction, Request, Response } from "express";
+import { validate } from "../../helpers/token"
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const requestPasswordReset = async (email : String) => {
+export const SECRET_KEY = process.env.JWT_SECRET as string
 
-    const user = await UserModel.findOne({ email });
+export interface CustomRequest extends Request {
+    token: string | JwtPayload;
+}
 
-    if (!user) throw new Error("User does not exist");
-    let token = await TokenModel.findOne({ userId: user._id });
-    if (token) await token.deleteOne();
-    let resetToken = crypto.randomBytes(32).toString("hex");
-    const hash = await bcrypt.hash(resetToken, 8);
+const auth = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const token = req.header('Authorization')?.replace('Bearer ', '');
 
-    await new TokenModel({
-        userId: user._id,
-        token: hash,
-        createdAt: Date.now(),
-    }).save();
+        if (!token) {
+            throw new Error();
+        }
 
-    const link = `localhost:${process.env.PORT}/passwordReset?token=${resetToken}&id=${user._id}`;
-    sendEmail(user.email, link);
-    return link;
+        const decoded = validate(token);
+        if (!decoded) {
+            return res.status(401).json({ "message": "no user data found" });
+        }
+
+        (req as CustomRequest).token = decoded;
+
+        next();
+    } catch (err) {
+        res.status(401).json({ "message": "Please authenticate" });
+    }
 };
+export { auth };
