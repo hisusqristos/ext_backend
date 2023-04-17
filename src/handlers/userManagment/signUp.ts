@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../../models/user";
 import { validateUser } from "../../helpers/userValidator"
 import bcrypt from "bcrypt";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const signUp = async (req: Request, res: Response, next: NextFunction) => {
     const { email, username, role, password } = req.body;
@@ -22,7 +25,8 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
         return res.status(409).json({ "message": "user already exists" })
     };
 
-    const hashedPasswd = bcrypt.hashSync(password, 10);
+    const bcryptSalt = process.env.SALT
+    const hashedPasswd = bcrypt.hashSync(password, Number(bcryptSalt));
 
     const newUser = new UserModel({
         username: username,
