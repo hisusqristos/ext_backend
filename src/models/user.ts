@@ -43,15 +43,5 @@ const userSchema = new Schema<User, Model<User>>({
     }
 })
 
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        return next();
-    }
-    const hash = await bcrypt.hash(this.password, 8);
-    this.password = hash;
-    next();
-});
-
 const UserModel = model('User', userSchema);
-
 export { UserModel, User }
