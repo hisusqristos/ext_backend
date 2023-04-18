@@ -5,15 +5,15 @@ import { getProfile } from "../handlers/getUser"
 import { auth } from "../handlers/userManagment/auth"
 const router = express.Router();
 
-// 1) signup -> tested
-// 2) signin -> tested
-// 4) reset password -> not tested :(
-// 5) get profile
-// 6) update profile
+// everything is tested, grab a coffee ( ˘▽˘)っ♨
 
 router.post("/sign-up", signUp);
 router.post("/sign-in", signIn);
+
+router.post("/forgot-password", forgotPassword)
+router.post("/reset-password", resetPassword)
+
 router.get("/profile", auth, getProfile)
-//router.post("/reset-password", )
+router.put("/update-profile", auth, updateProfile)
 
 export { router };
