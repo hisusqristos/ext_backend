@@ -9,8 +9,8 @@ const app = createServer()
 
 // 1) signup -> tested
 // 2) signin -> tested
-// 3) forgot password
-// 4) reset password
+// 3) forgot password -> tested
+// 4) reset password -> tested
 // 5) get profile -> tested
 // 6) update profile
 

@@ -2,7 +2,7 @@ import supertest from "supertest";
 import { createServer } from "../server"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
-import { MongoClient, Collection as MongoCollection } from 'mongodb'
+import { Collection as MongoCollection } from 'mongodb'
 dotenv.config();
 
 const app = createServer()
@@ -22,14 +22,6 @@ describe('testing get post delete and stuff', () => {
         collection = db.collection('users');
     })
 
-    // 1) signup -> tested
-    // 2) signin -> tested
-    // 3) forgot password
-    // 4) reset password
-    // 5) get profile
-    // 6) update profile
-
-
     const user = {
         username: "example",
         email: "test@example.com",
@@ -41,7 +33,7 @@ describe('testing get post delete and stuff', () => {
         test('returns 201 status code and a token', async () => {
             const response = await request
                 .post('/sign-up')
-                .send(user) // -> aaaaah idk whats happening. recieves 422
+                .send(user)
 
             expect(response.statusCode).toEqual(201);
         });
@@ -52,6 +44,7 @@ describe('testing get post delete and stuff', () => {
                 .send({ ...user, password: 'smol' })
 
             expect(response.statusCode).toEqual(422);
+            expect(response.body).toHaveProperty('message', 'invalid input');
         });
     })
 
@@ -74,6 +67,7 @@ describe('testing get post delete and stuff', () => {
                     password: 'wrongpassword',
                 })
             expect(response.statusCode).toEqual(401)
+            expect(response.body).toHaveProperty('message', 'invalid input');
         });
     })
 })
