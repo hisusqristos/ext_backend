@@ -12,7 +12,7 @@ const signIn = async (req: Request, res: Response) => {
 
   const correctPassword: Boolean = bcrypt.compareSync(password, user.password);
   if (!correctPassword) {
-    return res.status(401).send({ message: `password incorrect ${password}` });
+    return res.status(401).send({ message: `password incorrect` });
   }
 
   const token = await generateToken(user._id, user.email);

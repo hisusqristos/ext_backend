@@ -44,7 +44,7 @@ describe('testing get post delete and stuff', () => {
                 .send({ ...user, password: 'smol' })
 
             expect(response.statusCode).toEqual(422);
-            expect(response.body).toHaveProperty('message', 'invalid input');
+            expect(response.body).toHaveProperty('message', 'invalid data was provided');
         });
     })
 
@@ -59,7 +59,18 @@ describe('testing get post delete and stuff', () => {
             expect(response.statusCode).toEqual(200);
         });
 
-        test('returns 401 status code with invalid input', async () => {
+        test('returns 401 status code with non existing email', async () => {
+            const response = await request
+                .post('/sign-in')
+                .send({
+                    email: 'nonExisting@example.com',
+                    password: 'wrongpassword',
+                })
+            expect(response.statusCode).toEqual(401)
+            expect(response.body).toHaveProperty('message', 'email incorrect');
+        });
+
+        test('returns 401 status code with invalid password', async () => {
             const response = await request
                 .post('/sign-in')
                 .send({
@@ -67,7 +78,7 @@ describe('testing get post delete and stuff', () => {
                     password: 'wrongpassword',
                 })
             expect(response.statusCode).toEqual(401)
-            expect(response.body).toHaveProperty('message', 'invalid input');
+            expect(response.body).toHaveProperty('message', 'password incorrect');
         });
     })
 })
