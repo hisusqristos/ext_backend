@@ -23,13 +23,24 @@ const validateUser = (data: unknown) => {
         return false
     }
 
-    if (typeof data.password !== "string") {
-        return false;
+    if (!validatePassword(data.password)) {
+        return false
     }
-    if (data.password.length < 6) {
-        return false;
-    }
+
     return true
 }
 
-export { validateUser }
+
+const validatePassword = (data: unknown) => {
+    if (typeof data !== "string") {
+        return false
+    }
+
+    if (data.length < 6) {
+        return false
+    }
+
+    return true
+}
+
+export { validateUser, validatePassword }
