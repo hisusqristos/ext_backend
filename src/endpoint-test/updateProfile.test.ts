@@ -57,5 +57,14 @@ describe('Update profile', () => {
 
             expect(res2.statusCode).toBe(403);
         });
+
+        test('return 422 Invalid if user data isnt valid', async () => {
+            const res = await request
+                .put(`/update-profile/${userId}`)
+                .set('Authorization', `Bearer ${authToken}`)
+                .send({ ...user, password: "short" });
+
+            expect(res.statusCode).toBe(422);
+        });
     });
 });
