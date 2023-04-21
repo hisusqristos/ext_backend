@@ -23,5 +23,5 @@ const tokenSchema = new Schema<Token, Model<Token>>({
     },
 });
 
-const TokenModel = model('User', tokenSchema);
+const TokenModel = model('Token', tokenSchema);
 export { TokenModel }
