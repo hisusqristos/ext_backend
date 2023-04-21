@@ -5,6 +5,7 @@ import { signIn } from "../handlers/userManagment/signIn"
 import { getProfile } from "../handlers/getProfile"
 import { forgotPassword } from "../handlers/userManagment/forgotPassword"
 import { resetPassword, postNewPassword } from "../handlers/userManagment/resetPassword"
+import { updateProfile } from "../handlers/updateProfile"
 const router = express.Router();
 
 // everything is tested, grab a coffee ( ˘▽˘)っ♨
@@ -18,6 +19,6 @@ router.get("/reset-password/:id/:token", resetPassword)
 router.post("/reset-password", postNewPassword)
 
 router.get("/profile", auth, getProfile)
-router.put("/update-profile", auth, updateProfile)
+router.put("/update-profile/:id", auth, updateProfile)
 
 export { router };
